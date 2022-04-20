@@ -20,7 +20,7 @@ life cycle: plan - develop - build - test - deploy
 - easy of use: With DevOps, documentation does not come in the form of a user manual.
 In DevOps environments, it is preferable for the code to speak for itself.
 Documentation generators can be helpful here. 
-When an instruction is reduced to run vagrant up and the steps
+When an instruction is reduced to run `vagrant up` and the steps
 themselves are written as reproducible code, mistakes are much less likely to occur. Using configuration
 management (CM) and Infrastructure as Code (IaC) can also serve as a good documentation.
 
@@ -52,7 +52,11 @@ management (CM) and Infrastructure as Code (IaC) can also serve as a good docume
 
 9- Finally, we updated Ubuntu, typing sudo apt-get update
 
-10- exit - vagrant reload/halt 
+10- To exit the VM ssh `exit` - 
+
+11- To power off the VM `vagrant halt`. To start it again `vagrant reload`
+
+12- To delete the VM `vagrant destroy`
 
 ### Linux - Ubuntu distro
 - update `sudo apt-get update -y`
@@ -78,7 +82,35 @@ management (CM) and Infrastructure as Code (IaC) can also serve as a good docume
     it is not a good practice to use it on a daily basis    
 - How to change permissions `chmod instruction file_name`
     `chmod +x file_name` `chmod 400 file_name`
-- How to launch a process for 30 seconds `your_command timeout 30s`
-
+- How to launch a process for 30 seconds `your_command timeout 30s `
 - How to kill a process  `your_command sleep 30s`
+- How to install a product (program or VM, etc) - install web server called `nginx` (web server used for reversed proxy)
+    `sudo apt-get install nginx`
+- How to check the status `systemctl status nginx`
+- `sudo chmod +x provision.sh`
 
+
+### Provisioning task
+
+1- Create a provision.sh file on the localhost, NOT on the VM
+
+2- Add the script on the file to update the VM, and install and start nginx     
+
+3- Update the vagrantfile script adding the `config.vm.provision`. This script will allow us to run the shell file at the boot time of the VM. With the single command of `vagrant up` it will also run the script.
+
+4- On the first vagrant up that creates the environment, provisioning is run. If we want to run again the provision file we have to type `vagrant up --provision`
+
+5- After I finished this task I was able to access nginx on my browser on the url http://192.168.10.100/ without ssh into the VM
+
+![Vagrant diagram](vagrant-diagram.png)
+
+# Vagrant
+Vagrant is a virtual machine manager. It allows us to script the virtual machine configuration. Vagrant is used to develop a consistent development environment and to improve consistency between development environments and deployed servers.
+
+Vagrant is not just about creating VMs, it is about automating the work of setting up development environments for your projects.
+
+Once the Vagrantfile is created , we just need to vagrant up and everything is installed and configured to work. After this, the other members of the team can create their development environments with this configuration file, so we can have all the team working on the same environments and same dependencies.
+
+If something goes wrong or we just want to start over, just by running vagrant destroy we will remove all traces of the development environment from our machines.
+
+We can install our development environment on any virtualisation provider. If we just want to try on a local system, we can use VirtualBox or VMWare or if we want to host to the cloud, Vagrant provides support for many cloud hosting providers as well.
