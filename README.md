@@ -52,4 +52,11 @@ management (CM) and Infrastructure as Code (IaC) can also serve as a good docume
 
 9- Finally, we updated Ubuntu, typing sudo apt-get update
 
+10- exit - vagrant reload/halt 
+
+### Linux
+- update `sudo apt-get update -y`
+- upgrade `sudo apt-get upgrade -y`
+- Who am I `uname` or `uname -a`
+
 
