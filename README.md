@@ -54,9 +54,31 @@ management (CM) and Infrastructure as Code (IaC) can also serve as a good docume
 
 10- exit - vagrant reload/halt 
 
-### Linux
+### Linux - Ubuntu distro
 - update `sudo apt-get update -y`
 - upgrade `sudo apt-get upgrade -y`
 - Who am I `uname` or `uname -a`
+- Where am I `pwd` (print working directory)
+- How to check files/folders in existing location `ls` or `ls -a`
+- How to create a directory `mkdir dir_name` 
+- Navigate to any folder - change dir `cd folder_name`
+- How to change back to home location or any location `cd ..` or `cd` + enter
+- How to create a file `touch file_name` or `nano file_name`
+- To see the content of the file on terminal `cat file_name`
+- How to copy file `cp location/file_name to destination_path`
+- Create a folder called test in current location
+- Cut & paste the file inside the test folder from current location `mv text.txt test` (file_name directory)
+- How to delete them `rm -rf folder_name` (-rf deletes everythin that is inside the folder)
+- How to check running processes (Task manager) `top` `ps aux` (more information)
+- How to delete/remove/kill any process `kill pid` (process id)
 
+### Permissions
+- How to check permissions `ll`
+- How to switch to `root user` `sudo su` (super user) (exit)
+    it is not a good practice to use it on a daily basis    
+- How to change permissions `chmod instruction file_name`
+    `chmod +x file_name` `chmod 400 file_name`
+- How to launch a process for 30 seconds `your_command timeout 30s`
+
+- How to kill a process  `your_command sleep 30s`
 
