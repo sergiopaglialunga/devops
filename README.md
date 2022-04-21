@@ -89,14 +89,20 @@ management (CM) and Infrastructure as Code (IaC) can also serve as a good docume
 - How to check the status `systemctl status nginx`
 - `sudo chmod +x provision.sh`
 
+### create a private network with provided IP address
+    config.vm.network "private_network", ip: "192.168.10.100"
 
 ### Provisioning task
 
 1- Create a provision.sh file on the localhost, NOT on the VM
 
-2- Add the script on the file to update the VM, and install and start nginx     
+2- Add the script on the file to update the VM, install and start nginx `sudo apt-get install nginx -y`    
 
-3- Update the vagrantfile script adding the `config.vm.provision`. This script will allow us to run the shell file at the boot time of the VM. With the single command of `vagrant up` it will also run the script.
+3- Update the vagrantfile script adding the 
+
+`config.vm.provision "shell", path: "provision.sh"`
+
+This script will allow us to run the shell file at the boot time of the VM. With the single command of `vagrant up` it will also run the script.
 
 4- On the first vagrant up that creates the environment, provisioning is run. If we want to run again the provision file we have to type `vagrant up --provision`
 
@@ -107,10 +113,23 @@ management (CM) and Infrastructure as Code (IaC) can also serve as a good docume
 # Vagrant
 Vagrant is a virtual machine manager. It allows us to script the virtual machine configuration. Vagrant is used to develop a consistent development environment and to improve consistency between development environments and deployed servers.
 
-Vagrant is not just about creating VMs, it is about automating the work of setting up development environments for your projects.
-
-Once the Vagrantfile is created , we just need to vagrant up and everything is installed and configured to work. After this, the other members of the team can create their development environments with this configuration file, so we can have all the team working on the same environments and same dependencies.
-
-If something goes wrong or we just want to start over, just by running vagrant destroy we will remove all traces of the development environment from our machines.
+1) The command `vagrant up` will execute the vagrantfile with the script with the virtual machine configuration
 
 We can install our development environment on any virtualisation provider. If we just want to try on a local system, we can use VirtualBox or VMWare or if we want to host to the cloud, Vagrant provides support for many cloud hosting providers as well.
+
+2) With Virtual Box, we created the virtual machine in our local system
+
+3) Our machine is an ubuntu/xenial64 with Linux OS, Ubuntu 16.04
+
+Vagrant is not just about creating VMs, it is about automating the work of setting up development environments for your projects.
+
+4) Using a provisioner we automated the work of setting up the virtual machine. 
+
+5) We created a private network with provided IP address. We also uploaded and executed a script within the guest machine `provision.sh`. With the provision file we installed nginx on our virtual machine. 
+
+6) With `vagrant ssh`, we can access our virtual machine in the terminal
+
+Once the Vagrantfile is created, we just need to `vagrant up` and everything is installed and configured to work. After this, the other members of the team can create their development environments with this configuration file, so we can have all the team working on the same environments and same dependencies.
+
+If something goes wrong or we just want to start over, just by running `vagrant destroy` we will remove all traces of the development environment from our machines.
+
