@@ -133,3 +133,52 @@ Once the Vagrantfile is created, we just need to `vagrant up` and everything is 
 
 If something goes wrong or we just want to start over, just by running `vagrant destroy` we will remove all traces of the development environment from our machines.
 
+### Env Variable
+- How to check existing `Env var`
+- How to print specific env var `printenv NAME`
+- How to create an env var
+- The key word `export` `export Key=value`
+- How to make an env var persistent on Linux Ubuntu `nano /home/user/.bashrc` global variable `nano /etc/environment`
+    `export GLOBAL="This is a global variable"`
+    `source /etc/environment`
+    `echo $GLOBAL`
+
+### Starter code
+questions to ask:
+- What are the dependencies required
+- How to run the environment test written in Ruby
+- How to transfer/send data from our localhost to our VM
+- How to run the Ruby tests to ensure the dev env has everything needed to deploy the app
+- Integration testing -yes/no?
+
+### Synced Folders
+- Add this command on the vagrantfile:
+    `config.vm.synced_folder ".", "/home/vagrant/app"`
+    The first parameter is a path to a directory on the host machine
+    If the path is relative, it is relative to the project root. The second parameter must be an absolute path of where to share the folder within the guest machine. 
+
+### Testing the app
+1) Run `vagrant up` to create the VM
+2) Test the app using the command `rake spec` from the folder `environment/spec-tests` on our localhost
+3) `vagrant ssh` and install nginx on the virtual machine `sudo apt-get install nginx`
+4) install nodejs `sudo apt-get install python-software-properties 
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install nodejs -y`
+5) `npm install` / `npm start`
+
+### Thursday 21/4 Activity
+
+vagrant up should provision all the required dependencies
+run the tests to ensure all the tests pass
+
+record a demo video of the tasks - 5 minutes - post the video
+
+1- I added a `config.vm.provision "shell", path: "provision.sh"` on the Vagrantfile
+
+2- I created a provision.sh file with the scripts to install nginx and nodejs
+
+3- I ssh into the VM to `npm install` `npm start` in app/app directory, and then `sudo npm install -g pm2` to install pm2 globally
+
+4- After starting npm I was able to access the app on port :3000
+ 
+5- I run the tests with `rake spec` in the environment/spec-tests folder
