@@ -58,6 +58,8 @@ management (CM) and Infrastructure as Code (IaC) can also serve as a good docume
 
 12- To delete the VM `vagrant destroy`
 
+# Introduction to Linux
+
 ### Linux - Ubuntu distro
 - update `sudo apt-get update -y`
 - upgrade `sudo apt-get upgrade -y`
@@ -89,6 +91,18 @@ management (CM) and Infrastructure as Code (IaC) can also serve as a good docume
 - How to check the status `systemctl status nginx`
 - `sudo chmod +x provision.sh`
 
+### Env Variable
+- How to check existing `Env var`
+- How to print specific env var `printenv NAME`
+- How to create an env var
+- The key word `export` `export Key=value`
+- How to make an env var persistent on Linux Ubuntu `nano /home/user/.bashrc` global variable `nano /etc/environment`
+    `export GLOBAL="This is a global variable"`
+    `source /etc/environment`
+    `echo $GLOBAL`
+
+# Vagrant - Provisioning
+
 ### create a private network with provided IP address
     config.vm.network "private_network", ip: "192.168.10.100"
 
@@ -110,7 +124,7 @@ This script will allow us to run the shell file at the boot time of the VM. With
 
 ![Vagrant diagram](vagrant-diagram.png)
 
-# Vagrant
+# Vagrant - Explanation of the diagram
 Vagrant is a virtual machine manager. It allows us to script the virtual machine configuration. Vagrant is used to develop a consistent development environment and to improve consistency between development environments and deployed servers.
 
 1) The command `vagrant up` will execute the vagrantfile with the script with the virtual machine configuration
@@ -133,18 +147,9 @@ Once the Vagrantfile is created, we just need to `vagrant up` and everything is 
 
 If something goes wrong or we just want to start over, just by running `vagrant destroy` we will remove all traces of the development environment from our machines.
 
-### Env Variable
-- How to check existing `Env var`
-- How to print specific env var `printenv NAME`
-- How to create an env var
-- The key word `export` `export Key=value`
-- How to make an env var persistent on Linux Ubuntu `nano /home/user/.bashrc` global variable `nano /etc/environment`
-    `export GLOBAL="This is a global variable"`
-    `source /etc/environment`
-    `echo $GLOBAL`
+# Starter code application
 
-### Starter code
-questions to ask:
+### Questions to ask:
 - What are the dependencies required
 - How to run the environment test written in Ruby
 - How to transfer/send data from our localhost to our VM
@@ -166,12 +171,10 @@ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt-get install nodejs -y`
 5) `npm install` / `npm start`
 
-### Thursday 21/4 Activity
+## How to automatise the process with Vagrant
 
 vagrant up should provision all the required dependencies
 run the tests to ensure all the tests pass
-
-record a demo video of the tasks - 5 minutes - post the video
 
 1- I added a `config.vm.provision "shell", path: "provision.sh"` on the Vagrantfile
 
@@ -179,6 +182,54 @@ record a demo video of the tasks - 5 minutes - post the video
 
 3- I ssh into the VM to `npm install` `npm start` in app/app directory, and then `sudo npm install -g pm2` to install pm2 globally
 
-4- After starting npm I was able to access the app on port :3000
+4- To start npm in the background I can use the following command: `sudo pm2 start npm -- start`
+    (I wasn't able to implement successfully this command)
+
+5- After starting npm I was able to access the app on port :3000
  
-5- I run the tests with `rake spec` in the environment/spec-tests folder
+6- I run the tests with `rake spec` in the environment/spec-tests folder
+
+## Reverse Proxy with nginx
+
+Allows the customer to access a website without especificating the port number
+- We use nginx to listen on port 3000 send to 80
+- cd /etc/nginx
+
+- task: configure nginx app front page and fibonacci
+- automate it with vagrant up reverse proxy
+- complete the documentation for both parts
+
+## Setting Up Nginx as a Reverse Proxy Server
+
+We have to locate and update the following file: `sudo nano /etc/nginx/sites-available/default`
+
+Within the server block you should have an existing location / block. Replace the contents of that block with the following configuration. If your application is set to listen on a different port, update the highlighted portion to the correct port number.
+
+        proxy_pass http://localhost:3000; 
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+
+- You can add additional location blocks to the same server block to provide access to other applications on the same server. For example, if you were also running another Node.js application on port 8081, you could add this location block to allow access to it via http://example.com/app2: `location /app2 {}`
+
+- After investigating the JS 'app.js' file, I realized that I have to add `/fibonacci/:n` after the location block to be able to access that part of the application. `location //fibonacci/:n {}`
+
+- Make sure you didn’t introduce any syntax errors by typing: `sudo nginx -t`
+
+- Restart nginx `sudo systemctl restart nginx`
+
+- Assuming that your Node.js application is running, and your application and Nginx configurations are correct, you should now be able to access your application via the Nginx reverse proxy. Try it out by accessing your server’s URL (its public IP address or domain name).
+
+## How to automatise this task
+
+- Option 1: delete the file and replace it with another with the            
+            provision.sh: `rm -rf /etc/nginx/sites-available/default`
+            
+            Vagrantfile: `config.vm.provision "file", source: "./default_folder/default1", destination: "/home/vagrant/etc/nginx/sites-available/default"`
+
+- Option 2 (best option): add a sed (stream editor) command to replace the contents of the `location` block in the file
+            
+- Every time that I destroy a VM to create a new one I have to remember to delete the .vagrant folder also `rm -rf .vagrant`
+
