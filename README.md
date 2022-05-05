@@ -1,6 +1,6 @@
 # devops
 ## what is devops
-devops is a new culture in IT departments that bridges the gap between 
+DevOps is a new culture in IT departments that bridges the gap between 
 the development and the operations teams.
 It allows for faster delivery of software.
 
@@ -17,7 +17,7 @@ life cycle: plan - develop - build - test - deploy
 
 #### DevOps four key pillars
 
-- easy of use: With DevOps, documentation does not come in the form of a user manual.
+- Easy of use: with DevOps, documentation does not come in the form of a user manual.
 In DevOps environments, it is preferable for the code to speak for itself.
 Documentation generators can be helpful here. 
 When an instruction is reduced to run `vagrant up` and the steps
@@ -25,11 +25,11 @@ themselves are written as reproducible code, mistakes are much less likely to oc
 management (CM) and Infrastructure as Code (IaC) can also serve as a good documentation.
 
 
-- flexibility: Extending an ability to extend and replace the existing tool sets, DevOps lends a helping hand when it comes to sustaining future technologies. Facilitates business growth and change: DevOps help facilitate change and business growth, by ensuring best practices are followed at all given periods of time.
+- Flexibility: extending an ability to extend and replace the existing tool sets, DevOps lends a helping hand when it comes to sustaining future technologies. Facilitates business growth and change: DevOps help facilitate change and business growth, by ensuring best practices are followed at all given periods of time.
 
-- robustness: System robustness is achieved by eliminating single points of failure in the system that would prevent successful transition. Often, the points of failure are related to people, technologies, tools or documentation.
+- Robustness: system robustness is achieved by eliminating single points of failure in the system that would prevent successful transition. Often, the points of failure are related to people, technologies, tools or documentation.
 
-- cost effective: DevOps drives better productivity from less staff, thereby curtailing the expenditure on development and operations personnel.
+- Cost effective: DevOps drives better productivity from less staff, thereby curtailing the expenditure on development and operations personnel.
 
 
 # Steps to have our virtual machine set up:
@@ -227,9 +227,13 @@ Within the server block you should have an existing location / block. Replace th
 - Option 1: delete the file and replace it with another with the            
             provision.sh: `rm -rf /etc/nginx/sites-available/default`
             
-            Vagrantfile: `config.vm.provision "file", source: "./default_folder/default1", destination: "/home/vagrant/etc/nginx/sites-available/default"`
+            Vagrantfile: `config.vm.provision "file", source: "default_s", destination: "/home/vagrant/etc/nginx/sites-available/default"`
 
 - Option 2 (best option): add a sed (stream editor) command to replace the contents of the `location` block in the file
             
 - Every time that I destroy a VM to create a new one I have to remember to delete the .vagrant folder also `rm -rf .vagrant`
+
+
+
+
 
